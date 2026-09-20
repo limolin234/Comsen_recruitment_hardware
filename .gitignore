@@ -8,3 +8,7 @@ dist/
 *.log
 __pycache__/
 /arm-gnu-toolchain-*/
+/toolchain/downloads/
+/toolchain/arm-gnu-toolchain-*/
+/toolchain/cmake-*/
+/toolchain/ninja-*/

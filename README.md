@@ -62,9 +62,9 @@
 │   ├── stm32f103c8tx_flash.ld         # CubeMX 提供的链接脚本，本项目调整过堆配置
 │   ├── lib/                          # 本项目提供：各模块的预编译静态库
 │   ├── README.md                     # 本项目编写：示例使用说明
-│   ├── setup.sh                      # 本项目编写：初始化共享工具链
 │   └── build.sh                      # 本项目编写：编译当前工程
-└── toolchain/                        # 本项目整理的安装脚本与说明，不由 CubeMX 生成
+├── setup.sh                           # 本项目编写：初始化项目级共享工具链
+└── toolchain/                         # 本项目整理的工具链环境，不由 CubeMX 生成
 ```
 
 CubeMX 负责根据 `.ioc` 生成初始化代码和构建所需的底层文件，不会生成本项目的计算器、显示或触控库。`Core/Inc/` 中的 `calculator_*.h`、`lcd1602.h`、`ttp229.h`、`touch_*.h` 是我们额外提供的公开接口。重新生成时，USER CODE 区域之外的自动生成代码可能被覆盖；新增代码应放在 USER CODE 区域或自己的独立源文件中。
@@ -73,20 +73,23 @@ CubeMX 负责根据 `.ioc` 生成初始化代码和构建所需的底层文件�
 
 工具包用于 x86_64 Linux / WSL Ubuntu。当前已在 Ubuntu 24.04 上验证；Ubuntu 20.04 的完整环境验证尚未完成。
 
-从仓库 Release 下载 `arm-gnu-toolchain-15.2.rel1-linux-x86_64.tar.gz`，解压后将工具链目录放在 `example/` 同级：
+从仓库 Release 下载 `arm-gnu-toolchain-15.2.rel1-linux-x86_64.tar.gz`，将其中内容解压到仓库已有的 `toolchain/` 目录。工具链只安装一次，仓库中的多个工程共用：
 
 ```text
 仓库目录/
 ├── example/
-├── toolchain/
-└── arm-gnu-toolchain-15.2.rel1-linux-x86_64/
+├── setup.sh
+└── toolchain/                        # 将工具链附件内容解压到这里
 ```
 
-在仓库根目录打开终端，运行：
+在仓库根目录打开终端，依次运行：
 
 ```bash
-cd example
+# 在仓库根目录执行，保留 toolchain/ 目录本身
+tar -xzf arm-gnu-toolchain-15.2.rel1-linux-x86_64.tar.gz \\
+    --strip-components=1 -C toolchain
 ./setup.sh
+cd example
 ./build.sh Release
 ```
 
@@ -102,7 +105,7 @@ sudo apt-get install tar xz-utils gzip python3 coreutils curl
 
 ```bash
 export ARM_GNU_TOOLCHAIN_HOME=/实际路径/arm-gnu-toolchain-15.2.rel1-linux-x86_64
-./setup.sh
+cd example
 ./build.sh Release
 ```
 

@@ -13,11 +13,10 @@ FreeRTOS、USB、启动文件和链接脚本。根目录 `CMakeLists.txt` 沿用
 | `touch_filter.h` | `libtouch_filter.a` |
 | `touch_model.h` | `libtouch_model.a` |
 
-将独立发布的 `arm-gnu-toolchain-15.2.rel1-linux-x86_64` 解压到本工程同级
-目录，然后运行：
+将独立发布的工具链放在仓库的 `toolchain/` 目录中，在仓库根目录运行一次
+`./setup.sh`，然后在本目录运行：
 
 ```bash
-./setup.sh
 ./build.sh Release
 ```
 
