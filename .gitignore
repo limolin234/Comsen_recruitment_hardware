@@ -1,0 +1,10 @@
+#工具链单独作为release分发，不进入.git
+/tools/
+build/
+dist/
+*.tar.gz
+*.tar.xz
+*.zip
+*.log
+__pycache__/
+/arm-gnu-toolchain-*/
